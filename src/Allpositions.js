@@ -57,9 +57,10 @@ export const AllPositions = [{
         { position: 53, top: 279, left: 190 },
         { position: 54, top: 253, left: 190 },
         { position: 55, top: 227, left: 190 },
-        { position: 56, top: 266, left: 97 },
-        { position: 57, top: 266, left: 43 },
-        { position: 58, top: 319, left: 43 },
+        { position: 56, top: 198, left: 189 },
+        { position: 57, top: 266, left: 97 },
+        { position: 58, top: 266, left: 43 },
+        { position: 59, top: 319, left: 43 },
     ],
     green: [
         { position: "01", top: 81, left: 336 },
@@ -122,5 +123,6 @@ export const AllPositions = [{
         { position: 53, top: 68, left: 189 },
         { position: 54, top: 94, left: 189 },
         { position: 54, top: 121, left: 189 },
+        { position: 55, top: 147, left: 190 },
     ],
 }, ];
