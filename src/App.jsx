@@ -1,6 +1,12 @@
 import React, { useContext } from "react";
 import Board from "./Component/Board";
-import { BlueDice, GreenDice, RedDice, YellowDice } from "./Component/Dice";
+import {
+  BlueDice,
+  ComputerGreenDice,
+  GreenDice,
+  RedDice,
+  YellowDice,
+} from "./Component/Dice";
 import HomePage from "./Component/HomePage";
 import { GlobalContext } from "./Context/LudoContext";
 
@@ -59,7 +65,12 @@ const App = () => {
         </p>
         <Board />
         <RedDice />
-        <GreenDice />
+        {greendicenumber.computerPlay === true ? (
+          <ComputerGreenDice />
+        ) : (
+          <GreenDice />
+        )}
+
         <YellowDice />
         <BlueDice />
         <p

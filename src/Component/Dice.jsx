@@ -121,3 +121,28 @@ export const GreenDice = () => {
     </div>
   );
 };
+
+export const ComputerGreenDice = () => {
+  const { greendicenumber, Greenchange } = useContext(GlobalContext);
+
+  return (
+    <div>
+      <div
+        style={{
+          width: "50px",
+          height: "50px",
+          backgroundColor: "green",
+          borderRadius: "10px",
+          position: "relative",
+          cursor: "pointer",
+          top: "-503px",
+          left: "176px",
+        }}
+      >
+        {greendicenumber.number === 0
+          ? SwitchNumber(greendicenumber.number)
+          : SwitchNumber(greendicenumber.number)}
+      </div>
+    </div>
+  );
+};

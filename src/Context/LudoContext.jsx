@@ -58,57 +58,66 @@ export const LudoContext = ({ children }) => {
     turn: false,
     message: "",
     computerPlay: false,
+    computerTurn: false,
+    computerValues: 0,
   });
 
   const BlueDiceValues = {
     number: 1,
   };
 
-  const computerPlay = () => {
-    // console.log("computer play");
-    // let number1;
-    // number1 = Math.floor(Math.random() * 6) + 1;
-    // if (greendicenumber.Noout === false) {
-    //   setgreen({
-    //     ...greendicenumber,
-    //     number: number1,
-    //     value: 0,
-    //     turn: false,
-    //     message: "",
-    //   });
-    //   setblue({ ...bluedicenumber, turn: true });
-    // } else if (number1 !== 6) {
-    //   setgreen({
-    //     ...greendicenumber,
-    //     number: number1,
-    //     value: number1,
-    //     turn: false,
-    //     message: "",
-    //   });
-    // } else {
-    //   console.log("Green Error");
-    // }
-    // if (number1 === 6) {
-    //   console.log("yes");
-    //   setgreen({
-    //     ...greendicenumber,
-    //     number: number1,
-    //     six: greendicenumber.six + 1,
-    //     totalsix: greendicenumber.totalsix - 1,
-    //     value: 6,
-    //     Noout: true,
-    //     message: "",
-    //     turn: true,
-    //   });
-    //   setblue({ ...bluedicenumber, turn: false });
-    // }
-    // // } else {
-    // //   setgreen({ ...greendicenumber, message: "Not Your Turn" });
-    // //   console.log("Not Your Turn");
-    // // }
-    // if (greendicenumber.turn === true) {
-    // }
-  };
+  // const computerPlay = () => {
+  //   // console.log("computer play");
+  //   // let number1;
+  //   let number1 = Math.floor(Math.random() * 6) + 1;
+  //   setgreen({
+  //     ...greendicenumber,
+  //     number: number1,
+  //     value: 0,
+  //     turn: false,
+  //     message: "",
+  //   });
+  //   // if (greendicenumber.Noout === false) {
+  //   //   setgreen({
+  //   //     ...greendicenumber,
+  //   //     number: number1,
+  //   //     value: 0,
+  //   //     turn: false,
+  //   //     message: "",
+  //   //   });
+  //   //   setblue({ ...bluedicenumber, turn: true });
+  //   // } else if (number1 !== 6) {
+  //   //   setgreen({
+  //   //     ...greendicenumber,
+  //   //     number: number1,
+  //   //     value: number1,
+  //   //     turn: false,
+  //   //     message: "",
+  //   //   });
+  //   // } else {
+  //   //   console.log("Green Error");
+  //   // }
+  //   // if (number1 === 6) {
+  //   //   console.log("yes");
+  //   //   setgreen({
+  //   //     ...greendicenumber,
+  //   //     number: number1,
+  //   //     six: greendicenumber.six + 1,
+  //   //     totalsix: greendicenumber.totalsix - 1,
+  //   //     value: 6,
+  //   //     Noout: true,
+  //   //     message: "",
+  //   //     turn: true,
+  //   //   });
+  //   //   setblue({ ...bluedicenumber, turn: false });
+  //   // }
+  //   // // } else {
+  //   // //   setgreen({ ...greendicenumber, message: "Not Your Turn" });
+  //   // //   console.log("Not Your Turn");
+  //   // // }
+  //   // if (greendicenumber.turn === true) {
+  //   // }
+  // };
 
   const Bluechange = () => {
     setgreen({ ...greendicenumber, message: "" });
@@ -129,9 +138,14 @@ export const LudoContext = ({ children }) => {
         });
 
         if (greendicenumber.computerPlay) {
-          computerPlay();
+          //   // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: true,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: true });
         }
-        setgreen({ ...greendicenumber, turn: true });
       } else if (number1 !== 6) {
         setblue({
           ...bluedicenumber,
@@ -145,6 +159,15 @@ export const LudoContext = ({ children }) => {
       }
 
       if (number1 === 6) {
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: false,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: false });
+        }
         setblue({
           ...bluedicenumber,
           number: number1,
@@ -155,13 +178,146 @@ export const LudoContext = ({ children }) => {
           message: "",
           turn: true,
         });
-        setgreen({ ...greendicenumber, turn: false });
       }
     } else {
       setblue({ ...bluedicenumber, message: "Not Your Turn" });
       console.log("Not Your Turn");
     }
   };
+
+  const computerBluechange = () => {
+    let number1 = Math.floor(Math.random() * 6) + 1;
+    if (greendicenumber.Noout === false) {
+      setgreen({
+        ...greendicenumber,
+        number: number1,
+        value: 0,
+        computerTurn: false,
+        message: "",
+      });
+      setblue({
+        ...bluedicenumber,
+        turn: true,
+      });
+    } else if (number1 !== 6) {
+      console.log("yes0");
+      setgreen({
+        ...greendicenumber,
+        number: number1,
+        value: number1,
+        computerTurn: true,
+        message: "",
+      });
+    } else {
+      console.log("");
+    }
+
+    if (number1 === 6) {
+      setblue({ ...bluedicenumber, turn: false });
+
+      setgreen({
+        ...greendicenumber,
+        number: number1,
+        value: 6,
+        Noout: true,
+        message: "",
+        computerTurn: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (greendicenumber.computerPlay && greendicenumber.computerTurn) {
+      setTimeout(() => {
+        computerBluechange();
+        if (
+          greendicenumber.computerValues === 0 &&
+          greendicenumber.value === 6 &&
+          greendicenumber.positionOut === false
+        ) {
+          setgreen({
+            ...greendicenumber,
+            six: 1,
+            positionNo: 4,
+            positionOut: true,
+            value: 0,
+            computerTurn: true,
+          });
+          setblue({ ...bluedicenumber, turn: false });
+        } else if (
+          greendicenumber.computerValues === 0 &&
+          greendicenumber.positionOut &&
+          greendicenumber.value > 0
+        ) {
+          console.log("yes2");
+          if (greendicenumber.value === 6) {
+            setblue({ ...bluedicenumber, turn: false });
+            if (greendicenumber.six === 1) {
+              setgreen({
+                ...greendicenumber,
+                six: 2,
+                positionNo1: 4,
+                positionOut1: true,
+                value: 0,
+                computerTurn: true,
+              });
+            } else if (greendicenumber.six === 2) {
+              setgreen({
+                ...greendicenumber,
+                six: 3,
+                positionNo1: 4,
+                positionOut1: true,
+                value: 0,
+                computerTurn: true,
+              });
+            } else if (greendicenumber.six === 3) {
+              setgreen({
+                ...greendicenumber,
+                six: 4,
+                positionNo1: 4,
+                positionOut1: true,
+                value: 0,
+                computerTurn: true,
+              });
+            } else {
+              countvalue.map(({ count }, index) => {
+                if (greendicenumber.count + greendicenumber.number === count) {
+                  setgreen({
+                    ...greendicenumber,
+                    positionNo: count + 4,
+                    count: greendicenumber.number + greendicenumber.count,
+                    value: 0,
+                    computerTurn: true,
+                  });
+                }
+              });
+            }
+
+            // if (greendicenumber.positionNo >= 55) {
+            //   consol.log("pass");
+            // }
+          } else {
+            console.log("yes3");
+            setblue({ ...bluedicenumber, turn: true });
+
+            countvalue.map(({ count }, index) => {
+              if (greendicenumber.count + greendicenumber.number === count) {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo: count + 4,
+                  count: greendicenumber.number + greendicenumber.count,
+                  value: 0,
+                  computerTurn: false,
+                });
+              }
+            });
+
+            console.log("ok 0");
+          }
+        }
+      }, 1000);
+    }
+  }, [greendicenumber]);
 
   const BlueChangeposition = (value) => {
     console.log("yes");
@@ -182,21 +338,32 @@ export const LudoContext = ({ children }) => {
         value: 0,
         turn: true,
       });
-      setgreen({ ...greendicenumber, turn: false });
+      if (greendicenumber.computerPlay) {
+        // computerPlay();
+        setgreen({
+          ...greendicenumber,
+          computerTurn: false,
+        });
+      } else {
+        setgreen({ ...greendicenumber, turn: false });
+      }
     } else if (
       value === 0 &&
       bluedicenumber.positionOut &&
       bluedicenumber.value > 0
     ) {
       if (bluedicenumber.value === 6) {
-        setgreen({ ...greendicenumber, turn: false });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: false,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: false });
+        }
         countvalue.map(({ count }, index) => {
           if (bluedicenumber.count + bluedicenumber.number === count) {
-            console.log(bluedicenumber.count + bluedicenumber.number);
-            greenposition1 = count + 4;
-            greenposition2 = bluedicenumber.positionNo1;
-            greenposition3 = bluedicenumber.positionNo2;
-            greenposition4 = bluedicenumber.positionNo3;
             setblue({
               ...bluedicenumber,
               positionNo: count + 1,
@@ -207,15 +374,19 @@ export const LudoContext = ({ children }) => {
           }
         });
       } else {
-        setgreen({ ...greendicenumber, turn: true });
+        if (greendicenumber.computerPlay) {
+          console.log("ok11");
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: true,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: true });
+        }
 
         countvalue.map(({ count }, index) => {
           if (bluedicenumber.count + bluedicenumber.number === count) {
-            console.log(bluedicenumber.count + bluedicenumber.number);
-            greenposition1 = count + 4;
-            greenposition2 = bluedicenumber.positionNo1;
-            greenposition3 = bluedicenumber.positionNo2;
-            greenposition4 = bluedicenumber.positionNo3;
             setblue({
               ...bluedicenumber,
               positionNo: count + 1,
@@ -225,9 +396,7 @@ export const LudoContext = ({ children }) => {
             });
           }
         });
-        if (greendicenumber.computerPlay) {
-          computerPlay();
-        }
+
         console.log("ok 0");
       }
     }
@@ -245,14 +414,30 @@ export const LudoContext = ({ children }) => {
         value: 0,
         turn: true,
       });
-      setgreen({ ...greendicenumber, turn: false });
+      if (greendicenumber.computerPlay) {
+        // computerPlay();
+        setgreen({
+          ...greendicenumber,
+          computerTurn: false,
+        });
+      } else {
+        setgreen({ ...greendicenumber, turn: false });
+      }
     } else if (
       value === 1 &&
       bluedicenumber.positionOut1 &&
       bluedicenumber.value > 0
     ) {
       if (bluedicenumber.value === 6) {
-        setgreen({ ...greendicenumber, turn: false });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: false,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: false });
+        }
         countvalue.map(({ count }, index) => {
           if (bluedicenumber.count1 + bluedicenumber.number === count) {
             console.log(bluedicenumber.count1 + bluedicenumber.number);
@@ -270,7 +455,15 @@ export const LudoContext = ({ children }) => {
           }
         });
       } else {
-        setgreen({ ...greendicenumber, turn: true });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: true,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: true });
+        }
 
         countvalue.map(({ count }, index) => {
           if (bluedicenumber.count1 + bluedicenumber.number === count) {
@@ -288,9 +481,7 @@ export const LudoContext = ({ children }) => {
             });
           }
         });
-        if (greendicenumber.computerPlay) {
-          computerPlay();
-        }
+
         console.log("ok 0");
       }
     }
@@ -308,14 +499,30 @@ export const LudoContext = ({ children }) => {
         value: 0,
         turn: true,
       });
-      setgreen({ ...greendicenumber, turn: false });
+      if (greendicenumber.computerPlay) {
+        // computerPlay();
+        setgreen({
+          ...greendicenumber,
+          computerTurn: false,
+        });
+      } else {
+        setgreen({ ...greendicenumber, turn: false });
+      }
     } else if (
       value === 2 &&
       bluedicenumber.positionOut2 &&
       bluedicenumber.value > 0
     ) {
       if (bluedicenumber.value === 6) {
-        setgreen({ ...greendicenumber, turn: false });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: false,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: false });
+        }
         countvalue.map(({ count }, index) => {
           if (bluedicenumber.count2 + bluedicenumber.number === count) {
             console.log(bluedicenumber.count2 + bluedicenumber.number);
@@ -333,7 +540,15 @@ export const LudoContext = ({ children }) => {
           }
         });
       } else {
-        setgreen({ ...greendicenumber, turn: true });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: true,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: true });
+        }
 
         countvalue.map(({ count }, index) => {
           if (bluedicenumber.count2 + bluedicenumber.number === count) {
@@ -351,72 +566,92 @@ export const LudoContext = ({ children }) => {
             });
           }
         });
-        if (greendicenumber.computerPlay) {
-          computerPlay();
-        }
+
         console.log("ok 0");
       }
     }
 
     if (
       value === 3 &&
-      greendicenumber.value === 6 &&
-      greendicenumber.positionOut3 === false
+      bluedicenumber.value === 6 &&
+      bluedicenumber.positionOut3 === false
     ) {
-      setgreen({
-        ...greendicenumber,
+      setblue({
+        ...bluedicenumber,
         six: 0,
         positionNo3: 1,
         positionOut3: true,
         value: 0,
         turn: true,
       });
-      setblue({ ...bluedicenumber, turn: false });
+      if (greendicenumber.computerPlay) {
+        // computerPlay();
+        setgreen({
+          ...greendicenumber,
+          computerTurn: false,
+        });
+      } else {
+        setgreen({ ...greendicenumber, turn: false });
+      }
     } else if (
       value === 3 &&
-      greendicenumber.positionOut3 &&
-      greendicenumber.value > 0
+      bluedicenumber.positionOut3 &&
+      bluedicenumber.value > 0
     ) {
-      if (greendicenumber.value === 6) {
+      if (bluedicenumber.value === 6) {
         console.log("okkkk0");
 
-        setblue({ ...bluedicenumber, turn: false });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: false,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: false });
+        }
         countvalue.map(({ count }, index) => {
-          if (greendicenumber.count3 + greendicenumber.number === count) {
-            greenposition1 = greendicenumber.positionNo3;
-            greenposition2 = greendicenumber.positionNo1;
+          if (bluedicenumber.count3 + bluedicenumber.number === count) {
+            greenposition1 = bluedicenumber.positionNo3;
+            greenposition2 = bluedicenumber.positionNo1;
             greenposition3 = count + 4;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
+            greenposition4 = bluedicenumber.positionNo3;
+            setblue({
+              ...bluedicenumber,
               positionNo3: count + 1,
-              count3: greendicenumber.number + greendicenumber.count3,
+              count3: bluedicenumber.number + bluedicenumber.count3,
               value: 0,
               turn: true,
             });
           }
         });
       } else {
-        setblue({ ...bluedicenumber, turn: true });
+        if (greendicenumber.computerPlay) {
+          // computerPlay();
+          setgreen({
+            ...greendicenumber,
+            computerTurn: true,
+          });
+        } else {
+          setgreen({ ...greendicenumber, turn: true });
+        }
         console.log("okkkk1");
         countvalue.map(({ count }, index) => {
-          if (greendicenumber.count3 + greendicenumber.number === count) {
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = greendicenumber.positionNo1;
+          if (bluedicenumber.count3 + bluedicenumber.number === count) {
+            greenposition1 = bluedicenumber.positionNo;
+            greenposition2 = bluedicenumber.positionNo1;
             greenposition3 = count + 4;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
+            greenposition4 = bluedicenumber.positionNo3;
+            setblue({
+              ...bluedicenumber,
               positionNo3: count + 1,
-              count3: greendicenumber.number + greendicenumber.count3,
+              count3: bluedicenumber.number + bluedicenumber.count3,
               value: 0,
               turn: false,
             });
           }
         });
-        if (greendicenumber.computerPlay) {
-          computerPlay();
-        }
+
         console.log("ok 3");
       }
     }
@@ -475,319 +710,321 @@ export const LudoContext = ({ children }) => {
   };
 
   const GreenChangeposition = (value) => {
-    let blueposition1 = bluedicenumber.positionNo;
-    let blueposition2 = bluedicenumber.positionNo1;
-    let blueposition3 = bluedicenumber.positionNo2;
-    let blueposition4 = bluedicenumber.positionNo3;
-    const bluenewposition = [
-      blueposition1,
-      blueposition2,
-      blueposition3,
-      blueposition4,
-    ];
-    console.log(value);
-    let greenposition1;
-    let greenposition2;
-    let greenposition3;
-    let greenposition4;
+    if (greendicenumber.computerPlay === false) {
+      let blueposition1 = bluedicenumber.positionNo;
+      let blueposition2 = bluedicenumber.positionNo1;
+      let blueposition3 = bluedicenumber.positionNo2;
+      let blueposition4 = bluedicenumber.positionNo3;
+      const bluenewposition = [
+        blueposition1,
+        blueposition2,
+        blueposition3,
+        blueposition4,
+      ];
+      console.log(value);
+      let greenposition1;
+      let greenposition2;
+      let greenposition3;
+      let greenposition4;
 
-    if (
-      value === 0 &&
-      greendicenumber.value === 6 &&
-      greendicenumber.positionOut === false
-    ) {
-      setgreen({
-        ...greendicenumber,
-        six: 0,
-        positionNo: 4,
-        positionOut: true,
-        value: 0,
-        turn: true,
-      });
-      setblue({ ...bluedicenumber, turn: false });
-    } else if (
-      value === 0 &&
-      greendicenumber.positionOut &&
-      greendicenumber.value > 0
-    ) {
-      if (greendicenumber.value === 6) {
+      if (
+        value === 0 &&
+        greendicenumber.value === 6 &&
+        greendicenumber.positionOut === false
+      ) {
+        setgreen({
+          ...greendicenumber,
+          six: 0,
+          positionNo: 4,
+          positionOut: true,
+          value: 0,
+          turn: true,
+        });
         setblue({ ...bluedicenumber, turn: false });
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count + greendicenumber.number === count) {
-            console.log(greendicenumber.count + greendicenumber.number);
-            greenposition1 = count + 4;
-            greenposition2 = greendicenumber.positionNo1;
-            greenposition3 = greendicenumber.positionNo2;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
-              positionNo: count + 4,
-              count: greendicenumber.number + greendicenumber.count,
-              value: 0,
-              turn: true,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
-      } else {
-        setblue({ ...bluedicenumber, turn: true });
+      } else if (
+        value === 0 &&
+        greendicenumber.positionOut &&
+        greendicenumber.value > 0
+      ) {
+        if (greendicenumber.value === 6) {
+          setblue({ ...bluedicenumber, turn: false });
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count + greendicenumber.number === count) {
+              console.log(greendicenumber.count + greendicenumber.number);
+              greenposition1 = count + 4;
+              greenposition2 = greendicenumber.positionNo1;
+              greenposition3 = greendicenumber.positionNo2;
+              greenposition4 = greendicenumber.positionNo3;
+              setgreen({
+                ...greendicenumber,
+                positionNo: count + 4,
+                count: greendicenumber.number + greendicenumber.count,
+                value: 0,
+                turn: true,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+        } else {
+          setblue({ ...bluedicenumber, turn: true });
 
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count + greendicenumber.number === count) {
-            console.log(greendicenumber.count + greendicenumber.number);
-            greenposition1 = count + 4;
-            greenposition2 = greendicenumber.positionNo1;
-            greenposition3 = greendicenumber.positionNo2;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
-              positionNo: count + 4,
-              count: greendicenumber.number + greendicenumber.count,
-              value: 0,
-              turn: false,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
-        console.log("ok 0");
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count + greendicenumber.number === count) {
+              console.log(greendicenumber.count + greendicenumber.number);
+              greenposition1 = count + 4;
+              greenposition2 = greendicenumber.positionNo1;
+              greenposition3 = greendicenumber.positionNo2;
+              greenposition4 = greendicenumber.positionNo3;
+              setgreen({
+                ...greendicenumber,
+                positionNo: count + 4,
+                count: greendicenumber.number + greendicenumber.count,
+                value: 0,
+                turn: false,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+          console.log("ok 0");
+        }
       }
-    }
 
-    if (
-      value === 1 &&
-      greendicenumber.value === 6 &&
-      greendicenumber.positionOut1 === false
-    ) {
-      setgreen({
-        ...greendicenumber,
-        six: 0,
-        positionNo1: 4,
-        positionOut1: true,
-        value: 0,
-        turn: true,
-      });
-      setblue({ ...bluedicenumber, turn: false });
-    } else if (
-      value === 1 &&
-      greendicenumber.positionOut1 &&
-      greendicenumber.value > 0
-    ) {
-      if (greendicenumber.value === 6) {
-        console.log("okkkk0");
-
+      if (
+        value === 1 &&
+        greendicenumber.value === 6 &&
+        greendicenumber.positionOut1 === false
+      ) {
+        setgreen({
+          ...greendicenumber,
+          six: 0,
+          positionNo1: 4,
+          positionOut1: true,
+          value: 0,
+          turn: true,
+        });
         setblue({ ...bluedicenumber, turn: false });
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count1 + greendicenumber.number === count) {
-            console.log(greendicenumber.count1 + greendicenumber.number);
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = count + 4;
-            greenposition3 = greendicenumber.positionNo2;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
-              positionNo1: count + 4,
-              count1: greendicenumber.number + greendicenumber.count1,
-              value: 0,
-              turn: true,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
-      } else {
-        setblue({ ...bluedicenumber, turn: true });
-        console.log("okkkk1");
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count1 + greendicenumber.number === count) {
-            console.log(greendicenumber.count + greendicenumber.number);
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = count + 4;
-            greenposition3 = greendicenumber.positionNo2;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
-              positionNo1: count + 4,
-              count1: greendicenumber.number + greendicenumber.count1,
-              value: 0,
-              turn: false,
-            });
-          }
-        });
-        console.log("ok 1");
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+      } else if (
+        value === 1 &&
+        greendicenumber.positionOut1 &&
+        greendicenumber.value > 0
+      ) {
+        if (greendicenumber.value === 6) {
+          console.log("okkkk0");
+
+          setblue({ ...bluedicenumber, turn: false });
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count1 + greendicenumber.number === count) {
+              console.log(greendicenumber.count1 + greendicenumber.number);
+              greenposition1 = greendicenumber.positionNo;
+              greenposition2 = count + 4;
+              greenposition3 = greendicenumber.positionNo2;
+              greenposition4 = greendicenumber.positionNo3;
+              setgreen({
+                ...greendicenumber,
+                positionNo1: count + 4,
+                count1: greendicenumber.number + greendicenumber.count1,
+                value: 0,
+                turn: true,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+        } else {
+          setblue({ ...bluedicenumber, turn: true });
+          console.log("okkkk1");
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count1 + greendicenumber.number === count) {
+              console.log(greendicenumber.count + greendicenumber.number);
+              greenposition1 = greendicenumber.positionNo;
+              greenposition2 = count + 4;
+              greenposition3 = greendicenumber.positionNo2;
+              greenposition4 = greendicenumber.positionNo3;
+              setgreen({
+                ...greendicenumber,
+                positionNo1: count + 4,
+                count1: greendicenumber.number + greendicenumber.count1,
+                value: 0,
+                turn: false,
+              });
+            }
+          });
+          console.log("ok 1");
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+        }
       }
-    }
 
-    if (
-      value === 2 &&
-      greendicenumber.value === 6 &&
-      greendicenumber.positionOut2 === false
-    ) {
-      setgreen({
-        ...greendicenumber,
-        six: 0,
-        positionNo2: 4,
-        positionOut2: true,
-        value: 0,
-        turn: true,
-      });
-      setblue({ ...bluedicenumber, turn: false });
-    } else if (
-      value === 2 &&
-      greendicenumber.positionOut2 &&
-      greendicenumber.value > 0
-    ) {
-      if (greendicenumber.value === 6) {
-        console.log("okkkk0");
-
+      if (
+        value === 2 &&
+        greendicenumber.value === 6 &&
+        greendicenumber.positionOut2 === false
+      ) {
+        setgreen({
+          ...greendicenumber,
+          six: 0,
+          positionNo2: 4,
+          positionOut2: true,
+          value: 0,
+          turn: true,
+        });
         setblue({ ...bluedicenumber, turn: false });
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count2 + greendicenumber.number === count) {
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = greendicenumber.positionNo1;
-            greenposition3 = count + 4;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
-              positionNo2: count + 4,
-              count2: greendicenumber.number + greendicenumber.count2,
-              value: 0,
-              turn: true,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
-      } else {
-        setblue({ ...bluedicenumber, turn: true });
-        console.log("okkkk1");
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count2 + greendicenumber.number === count) {
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = greendicenumber.positionNo1;
-            greenposition3 = count + 4;
-            greenposition4 = greendicenumber.positionNo3;
-            setgreen({
-              ...greendicenumber,
-              positionNo2: count + 4,
-              count2: greendicenumber.number + greendicenumber.count2,
-              value: 0,
-              turn: false,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
-        console.log("ok 2");
+      } else if (
+        value === 2 &&
+        greendicenumber.positionOut2 &&
+        greendicenumber.value > 0
+      ) {
+        if (greendicenumber.value === 6) {
+          console.log("okkkk0");
+
+          setblue({ ...bluedicenumber, turn: false });
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count2 + greendicenumber.number === count) {
+              greenposition1 = greendicenumber.positionNo;
+              greenposition2 = greendicenumber.positionNo1;
+              greenposition3 = count + 4;
+              greenposition4 = greendicenumber.positionNo3;
+              setgreen({
+                ...greendicenumber,
+                positionNo2: count + 4,
+                count2: greendicenumber.number + greendicenumber.count2,
+                value: 0,
+                turn: true,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+        } else {
+          setblue({ ...bluedicenumber, turn: true });
+          console.log("okkkk1");
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count2 + greendicenumber.number === count) {
+              greenposition1 = greendicenumber.positionNo;
+              greenposition2 = greendicenumber.positionNo1;
+              greenposition3 = count + 4;
+              greenposition4 = greendicenumber.positionNo3;
+              setgreen({
+                ...greendicenumber,
+                positionNo2: count + 4,
+                count2: greendicenumber.number + greendicenumber.count2,
+                value: 0,
+                turn: false,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+          console.log("ok 2");
+        }
       }
-    }
 
-    if (
-      value === 3 &&
-      greendicenumber.value === 6 &&
-      greendicenumber.positionOut3 === false
-    ) {
-      setgreen({
-        ...greendicenumber,
-        six: 0,
-        positionNo3: 4,
-        positionOut3: true,
-        value: 0,
-        turn: true,
-      });
-      setblue({ ...bluedicenumber, turn: false });
-    } else if (
-      value === 3 &&
-      greendicenumber.positionOut3 &&
-      greendicenumber.value > 0
-    ) {
-      if (greendicenumber.value === 6) {
-        console.log("okkkk0");
-
+      if (
+        value === 3 &&
+        greendicenumber.value === 6 &&
+        greendicenumber.positionOut3 === false
+      ) {
+        setgreen({
+          ...greendicenumber,
+          six: 0,
+          positionNo3: 4,
+          positionOut3: true,
+          value: 0,
+          turn: true,
+        });
         setblue({ ...bluedicenumber, turn: false });
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count3 + greendicenumber.number === count) {
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = greendicenumber.positionNo1;
-            greenposition3 = greendicenumber.positionNo2;
-            greenposition4 = count + 4;
-            setgreen({
-              ...greendicenumber,
-              positionNo3: count + 4,
-              count3: greendicenumber.number + greendicenumber.count3,
-              value: 0,
-              turn: true,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition);
-      } else {
-        console.log("okkkk1");
-        countvalue.map(({ count }, index) => {
-          if (greendicenumber.count3 + greendicenumber.number === count) {
-            greenposition1 = greendicenumber.positionNo;
-            greenposition2 = greendicenumber.positionNo1;
-            greenposition3 = greendicenumber.positionNo2;
-            greenposition4 = count + 4;
-            setgreen({
-              ...greendicenumber,
-              positionNo3: count + 4,
-              count3: greendicenumber.number + greendicenumber.count3,
-              value: 0,
-              turn: false,
-            });
-          }
-        });
-        // const greennewposition = [
-        //   greenposition1,
-        //   greenposition2,
-        //   greenposition3,
-        //   greenposition4,
-        // ];
-        // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+      } else if (
+        value === 3 &&
+        greendicenumber.positionOut3 &&
+        greendicenumber.value > 0
+      ) {
+        if (greendicenumber.value === 6) {
+          console.log("okkkk0");
 
-        setblue({ ...bluedicenumber, turn: true });
+          setblue({ ...bluedicenumber, turn: false });
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count3 + greendicenumber.number === count) {
+              greenposition1 = greendicenumber.positionNo;
+              greenposition2 = greendicenumber.positionNo1;
+              greenposition3 = greendicenumber.positionNo2;
+              greenposition4 = count + 4;
+              setgreen({
+                ...greendicenumber,
+                positionNo3: count + 4,
+                count3: greendicenumber.number + greendicenumber.count3,
+                value: 0,
+                turn: true,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition);
+        } else {
+          console.log("okkkk1");
+          countvalue.map(({ count }, index) => {
+            if (greendicenumber.count3 + greendicenumber.number === count) {
+              greenposition1 = greendicenumber.positionNo;
+              greenposition2 = greendicenumber.positionNo1;
+              greenposition3 = greendicenumber.positionNo2;
+              greenposition4 = count + 4;
+              setgreen({
+                ...greendicenumber,
+                positionNo3: count + 4,
+                count3: greendicenumber.number + greendicenumber.count3,
+                value: 0,
+                turn: false,
+              });
+            }
+          });
+          // const greennewposition = [
+          //   greenposition1,
+          //   greenposition2,
+          //   greenposition3,
+          //   greenposition4,
+          // ];
+          // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
+
+          setblue({ ...bluedicenumber, turn: true });
+        }
+        console.log("ok 3");
       }
-      console.log("ok 3");
     }
   };
 
@@ -806,8 +1043,7 @@ export const LudoContext = ({ children }) => {
   useEffect(() => {
     console.log(greendicenumber);
     console.log(bluedicenumber);
-    console.log(vall);
-  }, [greendicenumber, vall]);
+  }, [greendicenumber]);
 
   return (
     <GlobalContext.Provider
