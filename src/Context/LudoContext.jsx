@@ -6,6 +6,8 @@ import { position } from "../positions";
 import { AllPositions } from "../Allpositions";
 import { countvalue } from "../count";
 import { RemoveToken } from "../Component/RemoveToken";
+import { computerBluechangePosition } from "../Component/ComputerBluechangePosition";
+import { computerBluechange } from "../Component/ComputerBluechange";
 
 export const LudoContext = ({ children }) => {
   let obj = {};
@@ -51,7 +53,7 @@ export const LudoContext = ({ children }) => {
     positionNo2: 2,
     count3: 0,
     positionNo3: 3,
-    totalsix: 4,
+    totalsix: 1,
     six: 0,
     value: 0,
     Noout: false,
@@ -60,6 +62,7 @@ export const LudoContext = ({ children }) => {
     computerPlay: false,
     computerTurn: false,
     computerValues: 0,
+    totalsixvalue: 1,
   });
 
   const BlueDiceValues = {
@@ -185,136 +188,16 @@ export const LudoContext = ({ children }) => {
     }
   };
 
-  const computerBluechange = () => {
-    let number1 = Math.floor(Math.random() * 6) + 1;
-    if (greendicenumber.Noout === false) {
-      setgreen({
-        ...greendicenumber,
-        number: number1,
-        value: 0,
-        computerTurn: false,
-        message: "",
-      });
-      setblue({
-        ...bluedicenumber,
-        turn: true,
-      });
-    } else if (number1 !== 6) {
-      console.log("yes0");
-      setgreen({
-        ...greendicenumber,
-        number: number1,
-        value: number1,
-        computerTurn: true,
-        message: "",
-      });
-    } else {
-      console.log("");
-    }
-
-    if (number1 === 6) {
-      setblue({ ...bluedicenumber, turn: false });
-
-      setgreen({
-        ...greendicenumber,
-        number: number1,
-        value: 6,
-        Noout: true,
-        message: "",
-        computerTurn: true,
-      });
-    }
-  };
-
   useEffect(() => {
     if (greendicenumber.computerPlay && greendicenumber.computerTurn) {
       setTimeout(() => {
-        computerBluechange();
-        if (
-          greendicenumber.computerValues === 0 &&
-          greendicenumber.value === 6 &&
-          greendicenumber.positionOut === false
-        ) {
-          setgreen({
-            ...greendicenumber,
-            six: 1,
-            positionNo: 4,
-            positionOut: true,
-            value: 0,
-            computerTurn: true,
-          });
-          setblue({ ...bluedicenumber, turn: false });
-        } else if (
-          greendicenumber.computerValues === 0 &&
-          greendicenumber.positionOut &&
-          greendicenumber.value > 0
-        ) {
-          console.log("yes2");
-          if (greendicenumber.value === 6) {
-            setblue({ ...bluedicenumber, turn: false });
-            if (greendicenumber.six === 1) {
-              setgreen({
-                ...greendicenumber,
-                six: 2,
-                positionNo1: 4,
-                positionOut1: true,
-                value: 0,
-                computerTurn: true,
-              });
-            } else if (greendicenumber.six === 2) {
-              setgreen({
-                ...greendicenumber,
-                six: 3,
-                positionNo1: 4,
-                positionOut1: true,
-                value: 0,
-                computerTurn: true,
-              });
-            } else if (greendicenumber.six === 3) {
-              setgreen({
-                ...greendicenumber,
-                six: 4,
-                positionNo1: 4,
-                positionOut1: true,
-                value: 0,
-                computerTurn: true,
-              });
-            } else {
-              countvalue.map(({ count }, index) => {
-                if (greendicenumber.count + greendicenumber.number === count) {
-                  setgreen({
-                    ...greendicenumber,
-                    positionNo: count + 4,
-                    count: greendicenumber.number + greendicenumber.count,
-                    value: 0,
-                    computerTurn: true,
-                  });
-                }
-              });
-            }
-
-            // if (greendicenumber.positionNo >= 55) {
-            //   consol.log("pass");
-            // }
-          } else {
-            console.log("yes3");
-            setblue({ ...bluedicenumber, turn: true });
-
-            countvalue.map(({ count }, index) => {
-              if (greendicenumber.count + greendicenumber.number === count) {
-                setgreen({
-                  ...greendicenumber,
-                  positionNo: count + 4,
-                  count: greendicenumber.number + greendicenumber.count,
-                  value: 0,
-                  computerTurn: false,
-                });
-              }
-            });
-
-            console.log("ok 0");
-          }
-        }
+        computerBluechange(greendicenumber, setgreen, setblue, bluedicenumber);
+        computerBluechangePosition(
+          greendicenumber,
+          setgreen,
+          setblue,
+          bluedicenumber
+        );
       }, 1000);
     }
   }, [greendicenumber]);

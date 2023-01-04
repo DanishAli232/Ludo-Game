@@ -1,4 +1,9 @@
-export const computerBluechange = () => {
+export const computerBluechange = (
+    greendicenumber,
+    setgreen,
+    setblue,
+    bluedicenumber
+) => {
     let number1 = Math.floor(Math.random() * 6) + 1;
     if (greendicenumber.Noout === false) {
         setgreen({
@@ -13,11 +18,12 @@ export const computerBluechange = () => {
             turn: true,
         });
     } else if (number1 !== 6) {
+        console.log("yes0");
         setgreen({
             ...greendicenumber,
             number: number1,
             value: number1,
-            computerTurn: false,
+            computerTurn: true,
             message: "",
         });
     } else {
@@ -26,15 +32,14 @@ export const computerBluechange = () => {
 
     if (number1 === 6) {
         setblue({...bluedicenumber, turn: false });
+
         setgreen({
             ...greendicenumber,
             number: number1,
-            six: greendicenumber.six + 1,
-            totalsix: greendicenumber.totalsix - 1,
             value: 6,
             Noout: true,
             message: "",
-            turn: true,
+            computerTurn: true,
         });
     }
 };
