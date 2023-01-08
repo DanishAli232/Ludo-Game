@@ -40,6 +40,8 @@ export const LudoContext = ({ children }) => {
     computerPlay: false,
     totalsixvalue: 0,
     totalouttoken: 0,
+    computerTurn: false,
+    computerValues: 0,
   });
 
   const [greendicenumber, setgreen] = useState({
@@ -151,13 +153,28 @@ export const LudoContext = ({ children }) => {
         );
       }, 300);
     }
+    if (greendicenumber.totalouttoken === 4) {
+      alert("Player2 Won");
+    }
   }, [greendicenumber]);
 
-  useEffect(() => {
-    if (bluedicenumber.totalouttoken === 4) {
-      alert("Player1 Won");
-    }
-  }, [bluedicenumber]);
+  // useEffect(() => {
+  //   if (bluedicenumber.computerPlay && bluedicenumber.computerTurn) {
+  //     setTimeout(() => {
+  //       computerBluechange(greendicenumber, setgreen, setblue, bluedicenumber);
+  //       computerBluechangePosition(
+  //         greendicenumber,
+  //         setgreen,
+  //         setblue,
+  //         bluedicenumber
+  //       );
+  //     }, 300);
+
+  //   }
+  //   if (bluedicenumber.totalouttoken === 4) {
+  //     alert("Player2 Won");
+  //   }
+  // }, [bluedicenumber]);
 
   const BlueChangeposition = (value) => {
     bluechangetoken(value, greendicenumber, setgreen, setblue, bluedicenumber);
@@ -217,22 +234,23 @@ export const LudoContext = ({ children }) => {
 
   const GreenChangeposition = (value) => {
     if (greendicenumber.computerPlay === false) {
-      let blueposition1 = bluedicenumber.positionNo;
-      let blueposition2 = bluedicenumber.positionNo1;
-      let blueposition3 = bluedicenumber.positionNo2;
-      let blueposition4 = bluedicenumber.positionNo3;
-      const bluenewposition = [
-        blueposition1,
-        blueposition2,
-        blueposition3,
-        blueposition4,
-      ];
+      // let blueposition1 = bluedicenumber.positionNo;
+      // let blueposition2 = bluedicenumber.positionNo1;
+      // let blueposition3 = bluedicenumber.positionNo2;
+      // let blueposition4 = bluedicenumber.positionNo3;
+      // const bluenewposition = [
+      //   blueposition1,
+      //   blueposition2,
+      //   blueposition3,
+      //   blueposition4,
+      // ];
       console.log(value);
-      let greenposition1;
-      let greenposition2;
-      let greenposition3;
-      let greenposition4;
-
+      // let greenposition1;
+      // let greenposition2;
+      // let greenposition3;
+      // let greenposition4;
+      let vl = false;
+      let pos;
       if (
         value === 0 &&
         greendicenumber.value === 6 &&
@@ -256,20 +274,41 @@ export const LudoContext = ({ children }) => {
           setblue({ ...bluedicenumber, turn: false });
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count + greendicenumber.number === count) {
-              console.log(greendicenumber.count + greendicenumber.number);
-              greenposition1 = count + 4;
-              greenposition2 = greendicenumber.positionNo1;
-              greenposition3 = greendicenumber.positionNo2;
-              greenposition4 = greendicenumber.positionNo3;
-              setgreen({
-                ...greendicenumber,
-                positionNo: count + 4,
-                count: greendicenumber.number + greendicenumber.count,
-                value: 0,
-                turn: true,
-              });
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo: count + 4,
+                  count: greendicenumber.number + greendicenumber.count,
+                  value: 0,
+                  turn: true,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo: count + 4,
+                  count: greendicenumber.number + greendicenumber.count,
+                  value: 0,
+                  turn: true,
+                });
+              }
+              // console.log(greendicenumber.count + greendicenumber.number);
+              // greenposition1 = count + 4;
+              // greenposition2 = greendicenumber.positionNo1;
+              // greenposition3 = greendicenumber.positionNo2;
+              // greenposition4 = greendicenumber.positionNo3;
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: true,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,
@@ -279,23 +318,43 @@ export const LudoContext = ({ children }) => {
           // RemoveToken(greennewposition, bluenewposition, setblue, bluedicenumber);
         } else {
           setblue({ ...bluedicenumber, turn: true });
-
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count + greendicenumber.number === count) {
-              console.log(greendicenumber.count + greendicenumber.number);
-              greenposition1 = count + 4;
-              greenposition2 = greendicenumber.positionNo1;
-              greenposition3 = greendicenumber.positionNo2;
-              greenposition4 = greendicenumber.positionNo3;
-              setgreen({
-                ...greendicenumber,
-                positionNo: count + 4,
-                count: greendicenumber.number + greendicenumber.count,
-                value: 0,
-                turn: false,
-              });
+              // console.log(greendicenumber.count + greendicenumber.number);
+              // greenposition1 = count + 4;
+              // greenposition2 = greendicenumber.positionNo1;
+              // greenposition3 = greendicenumber.positionNo2;
+              // greenposition4 = greendicenumber.positionNo3;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo: count + 4,
+                  count: greendicenumber.number + greendicenumber.count,
+                  value: 0,
+                  turn: false,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo: count + 4,
+                  count: greendicenumber.number + greendicenumber.count,
+                  value: 0,
+                  turn: false,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: false,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,
@@ -332,20 +391,41 @@ export const LudoContext = ({ children }) => {
           setblue({ ...bluedicenumber, turn: false });
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count1 + greendicenumber.number === count) {
-              console.log(greendicenumber.count1 + greendicenumber.number);
-              greenposition1 = greendicenumber.positionNo;
-              greenposition2 = count + 4;
-              greenposition3 = greendicenumber.positionNo2;
-              greenposition4 = greendicenumber.positionNo3;
-              setgreen({
-                ...greendicenumber,
-                positionNo1: count + 4,
-                count1: greendicenumber.number + greendicenumber.count1,
-                value: 0,
-                turn: true,
-              });
+              // console.log(greendicenumber.count1 + greendicenumber.number);
+              // greenposition1 = greendicenumber.positionNo;
+              // greenposition2 = count + 4;
+              // greenposition3 = greendicenumber.positionNo2;
+              // greenposition4 = greendicenumber.positionNo3;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo1: count + 4,
+                  count1: greendicenumber.number + greendicenumber.count1,
+                  value: 0,
+                  turn: true,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo1: count + 4,
+                  count1: greendicenumber.number + greendicenumber.count1,
+                  value: 0,
+                  turn: true,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: true,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,
@@ -358,20 +438,41 @@ export const LudoContext = ({ children }) => {
           console.log("okkkk1");
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count1 + greendicenumber.number === count) {
-              console.log(greendicenumber.count + greendicenumber.number);
-              greenposition1 = greendicenumber.positionNo;
-              greenposition2 = count + 4;
-              greenposition3 = greendicenumber.positionNo2;
-              greenposition4 = greendicenumber.positionNo3;
-              setgreen({
-                ...greendicenumber,
-                positionNo1: count + 4,
-                count1: greendicenumber.number + greendicenumber.count1,
-                value: 0,
-                turn: false,
-              });
+              // console.log(greendicenumber.count + greendicenumber.number);
+              // greenposition1 = greendicenumber.positionNo;
+              // greenposition2 = count + 4;
+              // greenposition3 = greendicenumber.positionNo2;
+              // greenposition4 = greendicenumber.positionNo3;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo1: count + 4,
+                  count1: greendicenumber.number + greendicenumber.count1,
+                  value: 0,
+                  turn: false,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo1: count + 4,
+                  count1: greendicenumber.number + greendicenumber.count1,
+                  value: 0,
+                  turn: false,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: false,
+            });
+          }
           console.log("ok 1");
           // const greennewposition = [
           //   greenposition1,
@@ -408,19 +509,40 @@ export const LudoContext = ({ children }) => {
           setblue({ ...bluedicenumber, turn: false });
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count2 + greendicenumber.number === count) {
-              greenposition1 = greendicenumber.positionNo;
-              greenposition2 = greendicenumber.positionNo1;
-              greenposition3 = count + 4;
-              greenposition4 = greendicenumber.positionNo3;
-              setgreen({
-                ...greendicenumber,
-                positionNo2: count + 4,
-                count2: greendicenumber.number + greendicenumber.count2,
-                value: 0,
-                turn: true,
-              });
+              // greenposition1 = greendicenumber.positionNo;
+              // greenposition2 = greendicenumber.positionNo1;
+              // greenposition3 = count + 4;
+              // greenposition4 = greendicenumber.positionNo3;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo2: count + 4,
+                  count2: greendicenumber.number + greendicenumber.count2,
+                  value: 0,
+                  turn: true,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo2: count + 4,
+                  count2: greendicenumber.number + greendicenumber.count2,
+                  value: 0,
+                  turn: true,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: true,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,
@@ -433,19 +555,40 @@ export const LudoContext = ({ children }) => {
           console.log("okkkk1");
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count2 + greendicenumber.number === count) {
-              greenposition1 = greendicenumber.positionNo;
-              greenposition2 = greendicenumber.positionNo1;
-              greenposition3 = count + 4;
-              greenposition4 = greendicenumber.positionNo3;
-              setgreen({
-                ...greendicenumber,
-                positionNo2: count + 4,
-                count2: greendicenumber.number + greendicenumber.count2,
-                value: 0,
-                turn: false,
-              });
+              // greenposition1 = greendicenumber.positionNo;
+              // greenposition2 = greendicenumber.positionNo1;
+              // greenposition3 = count + 4;
+              // greenposition4 = greendicenumber.positionNo3;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo2: count + 4,
+                  count2: greendicenumber.number + greendicenumber.count2,
+                  value: 0,
+                  turn: false,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo2: count + 4,
+                  count2: greendicenumber.number + greendicenumber.count2,
+                  value: 0,
+                  turn: false,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: false,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,
@@ -482,19 +625,40 @@ export const LudoContext = ({ children }) => {
           setblue({ ...bluedicenumber, turn: false });
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count3 + greendicenumber.number === count) {
-              greenposition1 = greendicenumber.positionNo;
-              greenposition2 = greendicenumber.positionNo1;
-              greenposition3 = greendicenumber.positionNo2;
-              greenposition4 = count + 4;
-              setgreen({
-                ...greendicenumber,
-                positionNo3: count + 4,
-                count3: greendicenumber.number + greendicenumber.count3,
-                value: 0,
-                turn: true,
-              });
+              // greenposition1 = greendicenumber.positionNo;
+              // greenposition2 = greendicenumber.positionNo1;
+              // greenposition3 = greendicenumber.positionNo2;
+              // greenposition4 = count + 4;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo3: count + 4,
+                  count3: greendicenumber.number + greendicenumber.count3,
+                  value: 0,
+                  turn: true,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo3: count + 4,
+                  count3: greendicenumber.number + greendicenumber.count3,
+                  value: 0,
+                  turn: true,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: true,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,
@@ -506,19 +670,40 @@ export const LudoContext = ({ children }) => {
           console.log("okkkk1");
           countvalue.map(({ count }, index) => {
             if (greendicenumber.count3 + greendicenumber.number === count) {
-              greenposition1 = greendicenumber.positionNo;
-              greenposition2 = greendicenumber.positionNo1;
-              greenposition3 = greendicenumber.positionNo2;
-              greenposition4 = count + 4;
-              setgreen({
-                ...greendicenumber,
-                positionNo3: count + 4,
-                count3: greendicenumber.number + greendicenumber.count3,
-                value: 0,
-                turn: false,
-              });
+              // greenposition1 = greendicenumber.positionNo;
+              // greenposition2 = greendicenumber.positionNo1;
+              // greenposition3 = greendicenumber.positionNo2;
+              // greenposition4 = count + 4;
+              vl = true;
+              pos = count + 4;
+              if (pos === 60) {
+                console.log(pos);
+                setgreen({
+                  ...greendicenumber,
+                  totalouttoken: greendicenumber.totalouttoken + 1,
+                  positionNo3: count + 4,
+                  count3: greendicenumber.number + greendicenumber.count3,
+                  value: 0,
+                  turn: false,
+                });
+              } else {
+                setgreen({
+                  ...greendicenumber,
+                  positionNo3: count + 4,
+                  count3: greendicenumber.number + greendicenumber.count3,
+                  value: 0,
+                  turn: false,
+                });
+              }
             }
           });
+          if (vl === false) {
+            setgreen({
+              ...greendicenumber,
+              value: 0,
+              turn: false,
+            });
+          }
           // const greennewposition = [
           //   greenposition1,
           //   greenposition2,

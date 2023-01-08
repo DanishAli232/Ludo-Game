@@ -136,13 +136,50 @@ export const computerBluechangePosition = (
                     }
                     if (
                         greendicenumber.totalsixvalue === 3 &&
-                        greendicenumber.positionNo3 >= 55
+                        greendicenumber.positionNo2 >= 55
                     ) {
                         setgreen({
                             ...greendicenumber,
                             Noout: false,
                         });
                     }
+                } else if (greendicenumber.totalsix === 4) {
+                    console.log("pass2");
+                    countvalue.map(({ count }, index) => {
+                        if (greendicenumber.count3 + greendicenumber.number === count) {
+                            setgreen({
+                                ...greendicenumber,
+                                positionNo3: count + 4,
+                                count3: greendicenumber.number + greendicenumber.count3,
+                                value: 0,
+                                computerTurn: true,
+                            });
+                        }
+                    });
+                    if (greendicenumber.positionNo3 >= 55) {
+                        setgreen({
+                            ...greendicenumber,
+                            totalsix: 5,
+                        });
+                    }
+                    // if (
+                    //     greendicenumber.totalsixvalue === 4 &&
+                    //     greendicenumber.positionNo3 >= 55
+                    // ) {
+                    //     setgreen({
+                    //         ...greendicenumber,
+                    //         Noout: false,
+                    //     });
+                    // }
+                } else if (greendicenumber.totalsix === 5) {
+                    setgreen({
+                        ...greendicenumber,
+                        computerTurn: false,
+                    });
+                    setblue({
+                        ...bluedicenumber,
+                        turn: true,
+                    });
                 }
             }
         } else {
@@ -226,16 +263,89 @@ export const computerBluechangePosition = (
                 }
                 if (
                     greendicenumber.totalsixvalue === 3 &&
-                    greendicenumber.positionNo3 >= 55
+                    greendicenumber.positionNo2 >= 55
                 ) {
                     setgreen({
                         ...greendicenumber,
                         Noout: false,
                     });
                 }
-            }
 
-            console.log("ok 0");
+                console.log("ok 0");
+            } else if (greendicenumber.totalsix === 4) {
+                console.log("pass2");
+                countvalue.map(({ count }, index) => {
+                    if (greendicenumber.count3 + greendicenumber.number === count) {
+                        setgreen({
+                            ...greendicenumber,
+                            positionNo3: count + 4,
+                            count3: greendicenumber.number + greendicenumber.count3,
+                            value: 0,
+                            computerTurn: false,
+                        });
+                    }
+                });
+                if (greendicenumber.positionNo3 >= 55) {
+                    setgreen({
+                        ...greendicenumber,
+                        totalsix: 5,
+                    });
+                }
+                // if (
+                //     greendicenumber.totalsixvalue === 3 &&
+                //     greendicenumber.positionNo3 >= 55
+                // ) {
+                //     setgreen({
+                //         ...greendicenumber,
+                //         Noout: false,
+                //     });
+                // }
+            } else if (greendicenumber.totalsix === 5) {
+                console.log("pass66");
+
+                if (greendicenumber.positionNo + greendicenumber.number === 60) {
+                    setgreen({
+                        ...greendicenumber,
+                        positionNo: 60,
+                        totalouttoken: greendicenumber.totalouttoken + 1,
+                        value: 0,
+                        computerTurn: false,
+                    });
+                } else if (
+                    greendicenumber.positionNo1 + greendicenumber.number ===
+                    60
+                ) {
+                    setgreen({
+                        ...greendicenumber,
+                        positionNo1: 60,
+                        totalouttoken: greendicenumber.totalouttoken + 1,
+                        value: 0,
+                        computerTurn: false,
+                    });
+                } else if (
+                    greendicenumber.positionNo2 + greendicenumber.number ===
+                    60
+                ) {
+                    setgreen({
+                        ...greendicenumber,
+                        positionNo2: 60,
+                        totalouttoken: greendicenumber.totalouttoken + 1,
+                        value: 0,
+                        computerTurn: false,
+                    });
+                } else if (
+                    greendicenumber.positionNo3 + greendicenumber.number ===
+                    60
+                ) {
+                    setgreen({
+                        ...greendicenumber,
+                        positionNo3: 60,
+                        totalouttoken: greendicenumber.totalouttoken + 1,
+                        value: 0,
+                        computerTurn: false,
+                    });
+                }
+            }
         }
     }
 };

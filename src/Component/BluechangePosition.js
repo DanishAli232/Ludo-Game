@@ -216,7 +216,7 @@ export const bluechangetoken = (
                             positionNo1: count + 1,
                             count1: bluedicenumber.number + bluedicenumber.count1,
                             value: 0,
-                            turn: true,
+                            turn: false,
                         });
                     } else {
                         setblue({
@@ -224,7 +224,7 @@ export const bluechangetoken = (
                             positionNo1: count + 1,
                             count1: bluedicenumber.number + bluedicenumber.count1,
                             value: 0,
-                            turn: true,
+                            turn: false,
                         });
                     }
                 }
@@ -332,7 +332,7 @@ export const bluechangetoken = (
                             positionNo2: count + 1,
                             count2: bluedicenumber.number + bluedicenumber.count2,
                             value: 0,
-                            turn: true,
+                            turn: false,
                         });
                     } else {
                         setblue({
@@ -340,7 +340,7 @@ export const bluechangetoken = (
                             positionNo2: count + 1,
                             count2: bluedicenumber.number + bluedicenumber.count2,
                             value: 0,
-                            turn: true,
+                            turn: false,
                         });
                     }
                 }
@@ -448,7 +448,7 @@ export const bluechangetoken = (
                             positionNo3: count + 1,
                             count3: bluedicenumber.number + bluedicenumber.count3,
                             value: 0,
-                            turn: true,
+                            turn: false,
                         });
                     } else {
                         setblue({
@@ -456,7 +456,7 @@ export const bluechangetoken = (
                             positionNo3: count + 1,
                             count3: bluedicenumber.number + bluedicenumber.count3,
                             value: 0,
-                            turn: true,
+                            turn: false,
                         });
                     }
                 }
