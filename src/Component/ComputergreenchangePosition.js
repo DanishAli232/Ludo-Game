@@ -1,6 +1,6 @@
 import { countvalue } from "../count";
 
-export const computerBluechangePosition = (
+export const computergreenchangePosition = (
     greendicenumber,
     setgreen,
     setblue,
@@ -19,7 +19,7 @@ export const computerBluechangePosition = (
             value: 0,
             computerTurn: true,
         });
-        setblue({...bluedicenumber, turn: false });
+        setblue({...bluedicenumber, turn: false, computerTurn: false });
     } else if (
         greendicenumber.computerValues === 0 &&
         greendicenumber.positionOut &&
@@ -27,7 +27,7 @@ export const computerBluechangePosition = (
     ) {
         console.log("yes2");
         if (greendicenumber.value === 6) {
-            setblue({...bluedicenumber, turn: false });
+            setblue({...bluedicenumber, turn: false, computerTurn: false });
             if (greendicenumber.six === 1) {
                 setgreen({
                     ...greendicenumber,
@@ -179,12 +179,13 @@ export const computerBluechangePosition = (
                     setblue({
                         ...bluedicenumber,
                         turn: true,
+                        computerTurn: true,
                     });
                 }
             }
         } else {
             console.log("yes3");
-            setblue({...bluedicenumber, turn: true });
+            setblue({...bluedicenumber, turn: true, computerTurn: true });
 
             if (greendicenumber.totalsix === 1) {
                 console.log("pass");

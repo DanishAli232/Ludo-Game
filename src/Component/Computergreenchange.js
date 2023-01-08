@@ -1,4 +1,4 @@
-export const computerBluechange = (
+export const computergreenchange = (
     greendicenumber,
     setgreen,
     setblue,
@@ -16,6 +16,7 @@ export const computerBluechange = (
         setblue({
             ...bluedicenumber,
             turn: true,
+            computerTurn: true,
         });
     } else if (number1 !== 6) {
         console.log("yes0");
@@ -31,7 +32,7 @@ export const computerBluechange = (
     }
 
     if (number1 === 6) {
-        setblue({...bluedicenumber, turn: false });
+        setblue({...bluedicenumber, turn: false, computerTurn: false });
 
         setgreen({
             ...greendicenumber,

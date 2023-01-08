@@ -6,9 +6,11 @@ import { position } from "../positions";
 import { AllPositions } from "../Allpositions";
 import { countvalue } from "../count";
 import { RemoveToken } from "../Component/RemoveToken";
-import { computerBluechangePosition } from "../Component/ComputerBluechangePosition";
-import { computerBluechange } from "../Component/ComputerBluechange";
+import { computergreenchangePosition } from "../Component/ComputergreenchangePosition";
+import { computergreenchange } from "../Component/Computergreenchange";
 import { bluechangetoken } from "../Component/BluechangePosition";
+import { computerbluechange } from "../Component/Computerbluechange1";
+import { computerbluechangePosition } from "../Component/Computerbluechangeposition1";
 
 export const LudoContext = ({ children }) => {
   let obj = {};
@@ -31,16 +33,16 @@ export const LudoContext = ({ children }) => {
     positionNo2: 59,
     count3: 0,
     positionNo3: 60,
-    totalsix: 4,
+    totalsix: 1,
     six: 0,
     value: 0,
     Noout: false,
     turn: true,
     message: "Your Turn",
     computerPlay: false,
-    totalsixvalue: 0,
+    totalsixvalue: 1,
     totalouttoken: 0,
-    computerTurn: false,
+    computerTurn: true,
     computerValues: 0,
   });
 
@@ -78,106 +80,115 @@ export const LudoContext = ({ children }) => {
   const Bluechange = () => {
     setgreen({ ...greendicenumber, message: "" });
 
-    let number1;
-    if (bluedicenumber.turn === true) {
-      number1 = Math.floor(Math.random() * 6) + 1;
-      if (bluedicenumber.value > 0) {
-        console.log("First You move your Token");
-        setblue({ ...bluedicenumber, message: "First You Move" });
-      } else if (bluedicenumber.Noout === false) {
-        setblue({
-          ...bluedicenumber,
-          number: number1,
-          value: 0,
-          turn: false,
-          message: "",
-        });
+    if (bluedicenumber.computerPlay === false) {
+      let number1;
+      if (bluedicenumber.turn === true) {
+        number1 = Math.floor(Math.random() * 6) + 1;
+        if (bluedicenumber.value > 0) {
+          console.log("First You move your Token");
+          setblue({ ...bluedicenumber, message: "First You Move" });
+        } else if (bluedicenumber.Noout === false) {
+          setblue({
+            ...bluedicenumber,
+            number: number1,
+            value: 0,
+            turn: false,
+            message: "",
+          });
 
-        if (greendicenumber.computerPlay) {
-          //   // computerPlay();
-          setgreen({
-            ...greendicenumber,
-            computerTurn: true,
+          if (greendicenumber.computerPlay) {
+            //   // computerPlay();
+            setgreen({
+              ...greendicenumber,
+              computerTurn: true,
+            });
+          } else {
+            setgreen({ ...greendicenumber, turn: true });
+          }
+        } else if (number1 !== 6) {
+          setblue({
+            ...bluedicenumber,
+            number: number1,
+            value: number1,
+            turn: false,
+            message: "",
           });
         } else {
-          setgreen({ ...greendicenumber, turn: true });
+          console.log("blue Error");
         }
-      } else if (number1 !== 6) {
-        setblue({
-          ...bluedicenumber,
-          number: number1,
-          value: number1,
-          turn: false,
-          message: "",
-        });
+
+        if (number1 === 6) {
+          if (greendicenumber.computerPlay) {
+            // computerPlay();
+            setgreen({
+              ...greendicenumber,
+              computerTurn: false,
+            });
+          } else {
+            setgreen({ ...greendicenumber, turn: false });
+          }
+          setblue({
+            ...bluedicenumber,
+            number: number1,
+            six: bluedicenumber.six + 1,
+            totalsix: bluedicenumber.totalsix - 1,
+            value: 6,
+            Noout: true,
+            message: "",
+            turn: true,
+          });
+        }
       } else {
-        console.log("blue Error");
+        setblue({ ...bluedicenumber, message: "Not Your Turn" });
+        console.log("Not Your Turn");
       }
-
-      if (number1 === 6) {
-        if (greendicenumber.computerPlay) {
-          // computerPlay();
-          setgreen({
-            ...greendicenumber,
-            computerTurn: false,
-          });
-        } else {
-          setgreen({ ...greendicenumber, turn: false });
-        }
-        setblue({
-          ...bluedicenumber,
-          number: number1,
-          six: bluedicenumber.six + 1,
-          totalsix: bluedicenumber.totalsix - 1,
-          value: 6,
-          Noout: true,
-          message: "",
-          turn: true,
-        });
-      }
-    } else {
-      setblue({ ...bluedicenumber, message: "Not Your Turn" });
-      console.log("Not Your Turn");
     }
   };
 
   useEffect(() => {
     if (greendicenumber.computerPlay && greendicenumber.computerTurn) {
       setTimeout(() => {
-        computerBluechange(greendicenumber, setgreen, setblue, bluedicenumber);
-        computerBluechangePosition(
+        computergreenchange(greendicenumber, setgreen, setblue, bluedicenumber);
+        computergreenchangePosition(
           greendicenumber,
           setgreen,
           setblue,
           bluedicenumber
         );
-      }, 300);
+      }, 1000);
     }
     if (greendicenumber.totalouttoken === 4) {
       alert("Player2 Won");
     }
   }, [greendicenumber]);
 
-  // useEffect(() => {
-  //   if (bluedicenumber.computerPlay && bluedicenumber.computerTurn) {
-  //     setTimeout(() => {
-  //       computerBluechange(greendicenumber, setgreen, setblue, bluedicenumber);
-  //       computerBluechangePosition(
-  //         greendicenumber,
-  //         setgreen,
-  //         setblue,
-  //         bluedicenumber
-  //       );
-  //     }, 300);
-
-  //   }
-  //   if (bluedicenumber.totalouttoken === 4) {
-  //     alert("Player2 Won");
-  //   }
-  // }, [bluedicenumber]);
+  useEffect(() => {
+    if (bluedicenumber.computerPlay && bluedicenumber.computerTurn) {
+      setTimeout(() => {
+        computerbluechange(greendicenumber, setgreen, setblue, bluedicenumber);
+        computerbluechangePosition(
+          greendicenumber,
+          setgreen,
+          setblue,
+          bluedicenumber
+        );
+      }, 1000);
+    }
+    if (bluedicenumber.totalouttoken === 4) {
+      alert("Player1 Won");
+    }
+  }, [bluedicenumber]);
 
   const BlueChangeposition = (value) => {
-    bluechangetoken(value, greendicenumber, setgreen, setblue, bluedicenumber);
+    if (bluedicenumber.computerPlay === false) {
+      bluechangetoken(
+        value,
+        greendicenumber,
+        setgreen,
+        setblue,
+        bluedicenumber
+      );
+    }
   };
 
   const Greenchange = () => {
@@ -731,6 +742,13 @@ export const LudoContext = ({ children }) => {
     setgreen({ ...greendicenumber, computerPlay: false });
   };
 
+  const ComvsCom = () => {
+    setdisplayludo("flex");
+    setdisplayopp("none");
+    setgreen({ ...greendicenumber, computerPlay: true });
+    setblue({ ...bluedicenumber, computerPlay: true });
+  };
+
   useEffect(() => {
     console.log(greendicenumber);
     console.log(bluedicenumber);
@@ -750,6 +768,7 @@ export const LudoContext = ({ children }) => {
         ComputerClicker,
         displayludo,
         displayopp,
+        ComvsCom,
       }}
     >
       {children}

@@ -20,6 +20,7 @@ const App = () => {
     ComputerClicker,
     displayludo,
     displayopp,
+    ComvsCom,
   } = useContext(GlobalContext);
 
   return (
@@ -41,6 +42,10 @@ const App = () => {
           <button style={{ cursor: "pointer" }} onClick={ComputerClicker}>
             Computer
           </button>
+        </div>
+        <div style={{ cursor: "pointer" }} onClick={ComvsCom}>
+          {" "}
+          <h1>Do You want to play Computer vs Computer</h1>
         </div>
       </div>
 
